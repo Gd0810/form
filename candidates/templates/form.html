@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -54,10 +55,26 @@
         .mb-3 {
             margin-bottom: 20px !important; /* Consistent spacing between fields */
         }
+    
+        /* Media Query for smaller screens */
+        @media (max-width: 768px) {
+            .form-container {
+                max-width: 100%; /* Full width for smaller screens */
+                margin: 20px; /* Adjust margin for smaller screens */
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container">
+         <!-- Simple Navbar with One Image -->
+    <nav class="navbar navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <img src="{% static 'redback.png' %}" alt="Logo"  class="d-inline-block align-text-top">
+            </a>
+        </div>
+    </nav>
         <div class="form-container">
             <h2>Candidate Registration Form</h2>
             <form method="post" enctype="multipart/form-data">
