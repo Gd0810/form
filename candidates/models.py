@@ -25,8 +25,8 @@ class Candidate(models.Model):
     institution = models.CharField(max_length=100)
     year_passing = models.CharField(max_length=4)
     specialization = models.CharField(max_length=100)
-    skills = models.TextField()
-    resume = models.FileField(upload_to='resumes/', null=True, blank=True)
+    skills = models.TextField(null=True, blank=True)
+    resume = models.FileField(upload_to='resumes/')
     certifications = models.FileField(upload_to='certifications/', null=True, blank=True)
     candidate_code = models.CharField(max_length=10, unique=True)
     
