@@ -1,4 +1,6 @@
 from django.db import models
+from django.db import transaction
+import uuid
 
 class Candidate(models.Model):
     POSITION_CHOICES = [
@@ -19,7 +21,7 @@ class Candidate(models.Model):
     email = models.EmailField(unique=True)
     phone = models.CharField(max_length=15)
     dob = models.DateField()
-    gender = models.CharField(max_length=10 , choices=GENDER_CHOICES)
+    gender = models.CharField(max_length=10, choices=GENDER_CHOICES)
     address = models.TextField()
     position = models.CharField(max_length=50, choices=POSITION_CHOICES)
     institution = models.CharField(max_length=100)
@@ -32,13 +34,32 @@ class Candidate(models.Model):
     
     def save(self, *args, **kwargs):
         if not self.candidate_code:
-            last_candidate = Candidate.objects.order_by('-id').first()
-            number = (last_candidate.id + 1) if last_candidate else 1
-            self.candidate_code = f'RBS{number}'
+            with transaction.atomic():
+                last_candidate = Candidate.objects.select_for_update().order_by('-id').first()
+                number = (last_candidate.id + 1) if last_candidate else 1
+                self.candidate_code = f'RBS{number}'
         super().save(*args, **kwargs)
     
     def __str__(self):
-        return self.candidate_code  # This will display candidate_code in dropdowns
+        return self.candidate_code
+
+class CustomCandidateForm(models.Model):
+    token = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+    full_name = models.CharField(max_length=100, blank=True, null=True)
+    email = models.EmailField(blank=True, null=True)
+    phone = models.CharField(max_length=15, blank=True, null=True)
+    dob = models.DateField(blank=True, null=True)
+    gender = models.CharField(max_length=10, choices=Candidate.GENDER_CHOICES, blank=True, null=True)
+    address = models.TextField(blank=True, null=True)
+    position = models.CharField(max_length=50, choices=Candidate.POSITION_CHOICES, blank=True, null=True)
+    institution = models.CharField(max_length=100, blank=True, null=True)
+    year_passing = models.CharField(max_length=4, blank=True, null=True)
+    specialization = models.CharField(max_length=100, blank=True, null=True)
+    skills = models.TextField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Custom Form - {self.token}"
 
 class GroupDiscussion(models.Model):
     STATUS_CHOICES = [

@@ -34,6 +34,14 @@
             border: 1px solid #ced4da;
             padding: 10px;
             font-size: 16px;
+            width: 100%; /* Ensure full width */
+        }
+        .form-control-file {
+            border-radius: 5px;
+            border: 1px solid #ced4da;
+            padding: 6px;
+            font-size: 16px;
+            width: 100%; /* Ensure full width */
         }
         .form-control:focus, .form-select:focus {
             border-color: #007bff;
@@ -63,18 +71,23 @@
                 margin: 20px; /* Adjust margin for smaller screens */
             }
         }
+        /* Style for read-only fields */
+        .form-control[readonly] {
+            background-color: #e9ecef;
+            opacity: 1;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-         <!-- Simple Navbar with One Image -->
-    <nav class="navbar navbar-light bg-light">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">
-                <img src="{% static 'redback.png' %}" alt="Logo"  class="d-inline-block align-text-top">
-            </a>
-        </div>
-    </nav>
+        <!-- Simple Navbar with One Image -->
+        <nav class="navbar navbar-light bg-light">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">
+                    <img src="{% static 'redback.png' %}" alt="Logo" class="d-inline-block align-text-top">
+                </a>
+            </div>
+        </nav>
         <div class="form-container">
             <h2>Candidate Registration Form</h2>
             <form method="post" enctype="multipart/form-data">

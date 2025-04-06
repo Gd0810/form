@@ -1,5 +1,10 @@
 from django.contrib import admin
-from .models import Candidate, GroupDiscussion, TechnicalRound, HRRound
+from .models import Candidate, GroupDiscussion, TechnicalRound, HRRound, CustomCandidateForm
+
+class CustomCandidateFormAdmin(admin.ModelAdmin):
+    list_display = ('token', 'created_at')
+    fields = ['full_name', 'email', 'phone', 'dob', 'gender', 'address', 'position', 'institution', 'year_passing', 'specialization', 'skills']
+    readonly_fields = ['token', 'created_at']
 
 class GroupDiscussionAdmin(admin.ModelAdmin):
     list_display = ('candidate_code', 'interview_date', 'interviewer_name', 'status', 'marks')
@@ -76,3 +81,4 @@ admin.site.register(Candidate, CandidateAdmin)
 admin.site.register(GroupDiscussion, GroupDiscussionAdmin)
 admin.site.register(TechnicalRound, TechnicalRoundAdmin)
 admin.site.register(HRRound, HRRoundAdmin)
+admin.site.register(CustomCandidateForm, CustomCandidateFormAdmin)
